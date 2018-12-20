@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+        {% for recipe in recipes %}
+        {{recipe.recipe_name}}
+        {{recipe.category_name}}
+        {{recipe.recipe_description}}
+        {{recipe.is_urgent}}
+        {{recipe.due_date}}
+        {% endfor %}
+ {% endblock %}
