@@ -10,8 +10,8 @@ app.config["MONGO_URI"] = 'mongodb://admin:Bettyboop234@ds139614.mlab.com:39614/
 mongo = PyMongo(app)
 
 @app.route('/')
-@app.route('/get_recipes')
-def get_recipes():
+@app.route('/get_recipe')
+def get_recipe():
     return render_template("recipes.html", 
     recipes=mongo.db.recipes.find())
     
