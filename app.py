@@ -15,6 +15,10 @@ def get_recipe():
     return render_template("recipes.html", 
     recipes=mongo.db.recipes.find())
     
+@app.route('/add_task')
+def add_task():
+    return render_template('addtasks.html')
+    
 
 
 
