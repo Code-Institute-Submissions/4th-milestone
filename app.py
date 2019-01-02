@@ -52,6 +52,47 @@ def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('get_recipes'))
     
+
+@app.route('/get_cuisines')
+def get_cuisine():
+    return render_template('cuisines.html',
+    categories=mongo.db.cuisines.find())
+    
+
+@app.route('/edit_cuisine/<cuisine_id>')
+def edit_cuisine(cuisine_id):
+    return render_template('editcuisine.html',
+    category=mongo.db.cuisines.find_one({'_id': ObjectId(cuisine_id)}))
+
+
+@app.route('/update_cuisine/<cuisine_id>', methods=['POST'])
+def update_cuisine(cuisine_id):
+    mongo.db.cuisines.update(
+        {'_id': ObjectId(cuisine_id)},
+        {'cuisine_name': request.form['cuisine_name']})
+    return redirect(url_for('get_cuisines'))
+
+  
+
+@app.route('/delete_cuisine/<cuisine_id>')  
+def delete_cuisine(cuisine_id):
+    mongo.db.cuisines.remove({'_id': ObjectId(cuisine_id)})
+    return redirect(url_for("get_cuisines"))
+    
+
+@app.route('/insert_cuisine', methods=['POST'])
+def insert_cuisine():
+    cuisines = mongo.db.cuisines
+    cuisine_doc = {'cuisine_name': request.form['cuisine_name']}
+    cuisines.insert_one(cuisine_doc)
+    return redirect(url_for('get_cuisine'))
+    
+
+@app.route('/new_cuisine')
+def new_cuisine():
+    return render_template('addcuisine.html')
+
+    
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
         port=int(os.environ.get('PORT')),
