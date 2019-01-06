@@ -5,92 +5,96 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'onlinecookbook'
-app.config["MONGO_URI"] = 'mongodb://admin:Bettyboop234@ds139614.mlab.com:39614/onlinecookbook'
+app.config["MONGO_URI"] = 'mongodb://admin:Bettyboop234@ds149914.mlab.com:49914/poembook'
+
 
 mongo = PyMongo(app)
 
 @app.route('/')
-@app.route('/get_recipes')
-def get_recipes():
-    return render_template("recipes.html", 
-    recipes=mongo.db.recipes.find())
+@app.route('/get_poems')
+def get_poems():
+    return render_template("poems.html", 
+    poems=mongo.db.poems.find())
     
     
-@app.route('/add_recipe')
-def add_recipe():
-    return render_template('addrecipes.html',
-    cuisines=mongo.db.cuisines.find())
+@app.route('/add_poem')
+def add_poem():
+    return render_template('addpoems.html',
+    genres=mongo.db.genres.find())
+
+@app.route('/view_poem')
+def view_poem():
+    return render_template('viewpoems.html',
+    poems=mongo.db.poems.find())
     
+@app.route('/insert_poem', methods=['POST'])
+def insert_poem():
+    poems =  mongo.db.poems
+    poems.insert_one(request.form.to_dict())
+    return redirect(url_for('get_poems'))
     
-@app.route('/insert_recipe', methods=['POST'])
-def insert_recipe():
-    recipes =  mongo.db.recipes
-    recipes.insert_one(request.form.to_dict())
-    return redirect(url_for('get_recipes'))
+@app.route('/edit_poem/<poem_id>')
+def edit_poem(poem_id):
+    the_poem =  mongo.db.poems.find_one({"_id": ObjectId(poem_id)})
+    all_genres =  mongo.db.genres.find()
+    return render_template('editpoem.html', poems=the_poem, genres=all_genres)
     
-@app.route('/edit_recipe/<recipe_id>')
-def edit_recipe(recipe_id):
-    the_recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)})
-    all_cuisines =  mongo.db.cuisines.find()
-    return render_template('editrecipe.html', recipes=the_recipe, cuisines=all_cuisines)
-    
-@app.route('/update_recipe/<recipe_id>', methods=["POST"])
-def update_recipe(recipe_id):
-    recipes = mongo.db.recipes
-    recipes.update( {'_id': ObjectId(recipe_id)},
+@app.route('/update_poem/<poem_id>', methods=["POST"])
+def update_poem(poem_id):
+    poems = mongo.db.poems
+    poems.update( {'_id': ObjectId(poem_id)},
     {
-        'recipe_name':request.form.get['recipe_name'],
-        'cuisine_name':request.form.get['cuisine_name'],
-        'recipe_description': request.form.get['recipe_description'],
-        'due_date': request.form.get['due_date'],
-        'is_urgent':request.form.get['is_urgent']
+        'poem_name':request.form.get['poem_name'],
+        'genre_name':request.form.get['genre_name'],
+        'poem_description': request.form.get['poem_description'],
+       
     })
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('get_poems'))
     
-@app.route('/delete_recipe/<recipe_id>')
-def delete_recipe(recipe_id):
-    mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
-    return redirect(url_for('get_recipes'))
-    
-
-@app.route('/get_cuisines')
-def get_cuisine():
-    return render_template('cuisines.html',
-    categories=mongo.db.cuisines.find())
+@app.route('/delete_poem/<poem_id>')
+def delete_poem(recipe_id):
+    mongo.db.poems.remove({'_id': ObjectId(poem_id)})
+    return redirect(url_for('get_poems'))
     
 
-@app.route('/edit_cuisine/<cuisine_id>')
-def edit_cuisine(cuisine_id):
-    return render_template('editcuisine.html',
-    category=mongo.db.cuisines.find_one({'_id': ObjectId(cuisine_id)}))
+@app.route('/get_genres')
+def get_genre():
+    return render_template('genres.html',
+    genres=mongo.db.genres.find())
+    
+
+@app.route('/edit_genre/<genre_id>')
+def edit_genre(genre_id):
+    return render_template('editgenre.html',
+    genre=mongo.db.genres.find_one({'_id': ObjectId(genre_id)}))
 
 
-@app.route('/update_cuisine/<cuisine_id>', methods=['POST'])
-def update_cuisine(cuisine_id):
-    mongo.db.cuisines.update(
-        {'_id': ObjectId(cuisine_id)},
-        {'cuisine_name': request.form['cuisine_name']})
-    return redirect(url_for('get_cuisines'))
+@app.route('/update_genre/<genre_id>', methods=['POST'])
+def update_genre(genre_id):
+    mongo.db.genres.update(
+        {'_id': ObjectId(genre_id)},
+        {'genre_name': request.form['genre_name']})
+    return redirect(url_for('get_genres'))
 
   
 
-@app.route('/delete_cuisine/<cuisine_id>')  
-def delete_cuisine(cuisine_id):
-    mongo.db.cuisines.remove({'_id': ObjectId(cuisine_id)})
-    return redirect(url_for("get_cuisines"))
+@app.route('/delete_genre/<genre_id>')  
+def delete_genre(genre_id):
+    mongo.db.genres.remove({'_id': ObjectId(genre_id)})
+    return redirect(url_for("get_genres"))
     
 
-@app.route('/insert_cuisine', methods=['POST'])
-def insert_cuisine():
-    cuisines = mongo.db.cuisines
-    cuisine_doc = {'cuisine_name': request.form['cuisine_name']}
-    cuisines.insert_one(cuisine_doc)
-    return redirect(url_for('get_cuisine'))
+@app.route('/insert_genre', methods=['POST'])
+def insert_genre():
+    genres = mongo.db.genres
+    genre_doc = {'genre_name': request.form['genre_name']}
+    genres.insert_one(genre_doc)
+    return redirect(url_for('get_genres'))
     
 
-@app.route('/new_cuisine')
-def new_cuisine():
-    return render_template('addcuisine.html')
+@app.route('/new_genre')
+def new_genre():
+    return render_template('addgenre.html')
 
     
 if __name__ == '__main__':

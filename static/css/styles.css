@@ -1,7 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+
 .btn_small {
     height: 24px;
     width: 60px;
     line-height: 24px;
     margin: 5px 5px;
     padding: 0 0.5em;
+}
+
+div {
+    font-family: 'Oswald', sans-serif;
+
 }
