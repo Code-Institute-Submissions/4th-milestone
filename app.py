@@ -52,7 +52,7 @@ def update_poem(poem_id):
     return redirect(url_for('get_poems'))
     
 @app.route('/delete_poem/<poem_id>')
-def delete_poem(recipe_id):
+def delete_poem(poem_id):
     mongo.db.poems.remove({'_id': ObjectId(poem_id)})
     return redirect(url_for('get_poems'))
     
@@ -74,14 +74,14 @@ def update_genre(genre_id):
     mongo.db.genres.update(
         {'_id': ObjectId(genre_id)},
         {'genre_name': request.form['genre_name']})
-    return redirect(url_for('get_genres'))
+    return redirect(url_for('get_genre'))
 
   
 
 @app.route('/delete_genre/<genre_id>')  
 def delete_genre(genre_id):
     mongo.db.genres.remove({'_id': ObjectId(genre_id)})
-    return redirect(url_for("get_genres"))
+    return redirect(url_for("get_genre"))
     
 
 @app.route('/insert_genre', methods=['POST'])
@@ -89,7 +89,7 @@ def insert_genre():
     genres = mongo.db.genres
     genre_doc = {'genre_name': request.form['genre_name']}
     genres.insert_one(genre_doc)
-    return redirect(url_for('get_genres'))
+    return redirect(url_for('get_genre'))
     
 
 @app.route('/new_genre')

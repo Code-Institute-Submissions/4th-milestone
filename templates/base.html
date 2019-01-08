@@ -17,11 +17,13 @@
                     <li><a href="{{url_for('get_poems')}}">Home</a></li>
                     <li><a href="{{url_for('add_poem')}}">New Poem</a></li>
                     <li><a href="{{url_for('get_genre')}}">Manage Genres</a></li>
+                    <li><a href="{{url_for('view_poem')}}">Manage Poems</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li><a href="{{url_for('get_poems')}}">Home</a></li>
                     <li><a href="{{url_for('add_poem')}}">New Poem</a></li>
                     <li><a href="{{url_for('get_genre')}}">Manage Genres</a></li>
+                    <li><a href="{{url_for('view_poem')}}">Manage Poems</a></li>
             </div>
         </nav>
     </header>
@@ -36,6 +38,31 @@
             $('select').material_select();
         });
     </script>
+    
+  <footer class="page-footer amber darken-3">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                  Welcome to Sweet Poems! This site allows you to not only enjoy reading poems, but also adding your own short poem too!
+                  We look forward to what you have to offer!
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">More Poem Websites</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="https://www.familyfriendpoems.com/poems/">FamilyFriend</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://www.poetry4kids.com/">Poetry4Kids</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://fizzyfunnyfuzzy.com/">FizzyFunnyFuzzy</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://www.poetryfoundation.org/">Poetry Foundation</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2014 Copyright Text
+            </div>
+          </div>
+        </footer>
 </body>
 
 </html>
